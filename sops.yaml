@@ -1,0 +1,10 @@
+
+creation_rules:
+  - path_regex: go-live/us-east-1/production/account_secrets\.yaml$
+    key_groups:
+      # Group 0
+      - pgp:
+          - 9KNNCUEY4SL284HDKLSOS873HELFOFIUHGGFJHD8D8 # Elb4rt0 <spam@nublar.com.ar>
+      # Group 1
+      - kms:
+          - arn: "arn:aws:kms:us-east-1:1111111111111:key/4abce1-988h-70109-h0gff-4b5oih2aG9"
