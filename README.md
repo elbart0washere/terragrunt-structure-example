@@ -1,8 +1,14 @@
-# terragrunt repo reference
-AWS Example  repository   Using GitOps &amp; terragrunt
+# Terragrunt repo reference
+This repository aims to help you on your way to adopting terragrunt.
 
-WIP: Documentation is pending... 
+Here you will find examples for:
+ * Dependency consumption
+ * Variable and folder structure
+ * Role assumption, for the provider
+ * Global tags (and the importance of having a module for tags)
+ * Outputs and weird things like using yamls for inputs.
 
+WIP: add more documentation 
 
 
 

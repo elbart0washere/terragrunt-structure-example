@@ -5,17 +5,20 @@
 # remote state, and locking: https://github.com/gruntwork-io/terragrunt
 # ---------------------------------------------------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------------------------------------------------
+#This file helps us render the provider and our remote backend dynamically, simplifying the management and configuration of our terraforms.
+#Enjoy it
+# ---------------------------------------------------------------------------------------------------------------------
+
 locals {
   # Automatically load account-level variables
   account_vars     = read_terragrunt_config(find_in_parent_folders("account.hcl"))
+  # Automatically load region-level variables
   environment_vars = read_terragrunt_config(find_in_parent_folders("environment.hcl"))
 
-  # Automatically load region-level variables
-  region_vars = read_terragrunt_config(find_in_parent_folders("region.hcl"))
-
   # Extract the variables we need for easy access
-  aws_region              = local.accounts_vars.locals.region
-  bucket_name             = "terraform-state-${local.accounts_vars.locals.environment}-${local.accounts_vars.locals.account_name}"
+  aws_region              = local.environment_vars.locals.region
+  bucket_name             = "terraform-state-${local.environment_vars.locals.environment}-${local.accounts_vars.locals.account_name}"
   aws_account_id          = local.account_vars.locals.aws_account_id
   aws_assume_role_name    = "${local.environment_vars.locals.environment}-terraformer-role"
 }
@@ -26,7 +29,7 @@ generate "provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
 provider "aws" {
-  region     = "us-east-1"
+  region     = "${local.aws_region}"
   assume_role {
     role_arn = "arn:aws:iam::${local.aws_account_id}:role/${local.aws_assume_role_name}"
   }
